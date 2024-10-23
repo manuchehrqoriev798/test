@@ -120,38 +120,89 @@
                 1: {
                     title: "Step 1: Introduction",
                     slides: [
-                        { type: 'text', content: "This is the content for Step 1. Here you can include relevant information and instructions." },
-                        { type: 'image', src: "./img/step1_image1.png" },
-                        { type: 'image', src: "./img/step1_image2.png" },
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/login/index.php"
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Type your username (usually an 8-digit number). You will receive your username via e-mail) or from the Moodle admin in the CTLT team and click \"Log In\"" },
+                                { image: "./img/moodle_2.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "In order to change your password, find your profile in the upper left corner under your initials. Open the drop-down menu." },
+                                { image: "./img/moodle_3.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Profile\"" },
+                                { image: "./img/moodle_4.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Edit profil\"" },
+                                { image: "./img/moodle_5.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Type in your new password." },
+                                { image: "./img/moodle_6.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"update profile\"" },
+                                { image: "./img/moodle_7.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Go to \"My courses\" on the main menu." },
+                                { image: "./img/moodle_8.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "You can all courses you're enrolled in here" },
+                                { image: "./img/moodle_9.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "You can all courses you're enrolled in here" },
+                                { image: "./img/moodle_10.jpeg" }
+                            ] 
+                        }
                     ]
                 },
                 2: {
                     title: "Step 2: Overview",
                     slides: [
-                        { type: 'text', content: "This is the content for Step 2. Here you can include more detailed information." },
-                        { type: 'image', src: "./img/step2_image1.png" },
-                    ]
-                },
-                3: {
-                    title: "Step 3: Details",
-                    slides: [
-                        { type: 'text', content: "This is the content for Step 3. Here you can provide specific instructions." },
-                        { type: 'image', src: "./img/step3_image1.png" }
-                    ]
-                },
-                4: {
-                    title: "Step 4: Finalization",
-                    slides: [
-                        { type: 'text', content: "This is the content for Step 4. Here you can include final steps and checks." }
-                    ]
-                },
-                5: {
-                    title: "Step 5: Conclusion",
-                    slides: [
-                        { type: 'text', content: "This is the content for Step 5. Here you can wrap up the information provided." }
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "This is the content for Step 2. Here you can include more detailed information." },
+                                { image: "./img/step2_image1.png" }
+                            ] 
+                        }
                     ]
                 }
             };
+            
 
             let currentStep = 1;
             let currentSlideIndex = 0;
@@ -210,10 +261,23 @@
 
                 // Render slide content based on currentSlideIndex
                 const slide = step.slides[currentSlideIndex];
+                slideContent.innerHTML = ''; // Clear previous content
+
                 if (slide.type === 'text') {
-                    slideContent.innerHTML = `<p>${slide.content}</p>`;
+                    // Check if the text contains a URL and make it clickable
+                    let text = slide.content;
+                    let clickableText = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                    slideContent.innerHTML = `<p>${clickableText}</p>`;
                 } else if (slide.type === 'image') {
                     slideContent.innerHTML = `<img src="${slide.src}" alt="Slide Image" style="max-width: 100%;">`;
+                } else if (slide.type === 'text-image') {
+                    // Render both text and image for 'text-image' type slides
+                    const text = slide.content[0].text;
+                    let clickableText = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                    slideContent.innerHTML = `
+                        <p>${clickableText}</p>
+                        <img src="${slide.content[1].image}" alt="Slide Image" style="max-width: 100%;">
+                    `;
                 }
 
                 renderStatusButton(); // Re-render the status button
@@ -222,6 +286,8 @@
                 prevSlideBtn.disabled = currentSlideIndex === 0;
                 nextSlideBtn.disabled = currentSlideIndex === step.slides.length - 1;
             }
+
+
 
             // Event listeners for Previous and Next buttons
             prevSlideBtn.addEventListener('click', () => {
