@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+
+    <!-- MODAL FOR DELETE CONFIRMATION -->
+    <div class="modal" id="exampleModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Delete Confirmation</h1>
+                    <button type="button" class="close-btn" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to delete this user?</p>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="passwordInp" placeholder="Password" required>
+                        <label for="passwordInp">Password</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn danger" id="confirmdeletebtn">Yes, delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR WITH PROFILE DROPDOWN -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-profile" id="navbarProfile">
+                <img src="./img/profile.png" alt="Profile" class="profile-pic" id="profile-pic">
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="#" id="updnewpassbtn" class="dropdown-item">Update User Password & Info</a>
+                    <a href="#" id="deleteuserbtn" class="dropdown-item">Delete This User</a>
+                    <a href="#" id="signoutbutton" class="dropdown-item">Sign Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- GREETING AND USER MESSAGES -->
+    <h2 id="msg"></h2>
+    <h2 id="greet"></h2>
+
+    <!-- MAIN CONTENT WITH STEPS AND SLIDES -->
+    <div class="main-container">
+        <div class="sidebar">
+            <h2>Steps</h2>
+            <ul>
+                <li><a href="#" class="step-link" data-step="1">Step 1</a></li>
+                <li><a href="#" class="step-link" data-step="2">Step 2</a></li>
+                <li><a href="#" class="step-link" data-step="3">Step 3</a></li>
+                <li><a href="#" class="step-link" data-step="4">Step 4</a></li>
+                <li><a href="#" class="step-link" data-step="5">Step 5</a></li>
+            </ul>
+        </div>
+
+        <div class="content" id="step-content">
+            <h3 id="step-title">Step 1: Introduction</h3>
+            <div id="slide-content"></div>
+            <div class="slide-nav-buttons">
+                <button id="prev-slide" class="btn">Previous</button>
+                <button id="next-slide" class="btn">Next</button>
+            </div>
+            <div id="status-btn-container"></div>
+        </div>
+    </div>
+
+    <!-- FILE DOWNLOAD SECTION -->
+    <div class="file-download-section">
+        <h2>Download Files</h2>
+        <button class="btn" id="toggleFileList">Download Files</button>
+        <ul class="file-list" id="fileList">
+            <li>
+                File 1 <button class="btn download-btn" onclick="downloadFile('./files/Qoriev_Manuchehr_Resume.pdf')">Download</button>
+            </li>
+            <li>
+                File 2 <button class="btn download-btn" onclick="downloadFile('./files/Qoriev_Manuchehr_Resume.pdf')">Download</button>
+            </li>
+            <li>
+                File 3 <button class="btn download-btn" onclick="downloadFile('./files/Qoriev_Manuchehr_Resume.pdf')">Download</button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- SCRIPT FOR DROPDOWN TOGGLE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const profilePic = document.getElementById('profile-pic');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            profilePic.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent event from bubbling up to window
+                dropdownMenu.classList.toggle('show');
+            });
+
+            // Close the dropdown if clicked outside
+            window.addEventListener('click', function (event) {
+                if (!event.target.closest('.navbar-profile')) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    <!-- SCRIPT FOR STEP NAVIGATION, SLIDES, AND MARK AS COMPLETED -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Steps with multiple slides (text or images)
+            const stepContent = {
+                1: {
+                    title: "Step 1: Introduction",
+                    slides: [
+                        { type: 'text', content: "This is the content for Step 1. Here you can include relevant information and instructions." },
+                        { type: 'image', src: "./img/step1_image1.png" },
+                        { type: 'image', src: "./img/step1_image2.png" },
+                    ]
+                },
+                2: {
+                    title: "Step 2: Overview",
+                    slides: [
+                        { type: 'text', content: "This is the content for Step 2. Here you can include more detailed information." },
+                        { type: 'image', src: "./img/step2_image1.png" },
+                    ]
+                },
+                3: {
+                    title: "Step 3: Details",
+                    slides: [
+                        { type: 'text', content: "This is the content for Step 3. Here you can provide specific instructions." },
+                        { type: 'image', src: "./img/step3_image1.png" }
+                    ]
+                },
+                4: {
+                    title: "Step 4: Finalization",
+                    slides: [
+                        { type: 'text', content: "This is the content for Step 4. Here you can include final steps and checks." }
+                    ]
+                },
+                5: {
+                    title: "Step 5: Conclusion",
+                    slides: [
+                        { type: 'text', content: "This is the content for Step 5. Here you can wrap up the information provided." }
+                    ]
+                }
+            };
+
+            let currentStep = 1;
+            let currentSlideIndex = 0;
+
+            const stepLinks = document.querySelectorAll('.step-link');
+            const statusBtnContainer = document.getElementById('status-btn-container');
+            const stepTitle = document.getElementById('step-title');
+            const slideContent = document.getElementById('slide-content');
+            const prevSlideBtn = document.getElementById('prev-slide');
+            const nextSlideBtn = document.getElementById('next-slide');
+
+            // Function to render "Mark as Completed" button
+            function renderStatusButton() {
+                const isCompleted = localStorage.getItem(`step-${currentStep}-completed`) === "true";
+                statusBtnContainer.innerHTML = `
+                    <button id="mark-completed" class="btn ${isCompleted ? 'completed' : 'not-completed'}">
+                        ${isCompleted ? "Marked as Completed" : "Mark as Completed"}
+                    </button>
+                `;
+
+                const markCompletedBtn = document.getElementById('mark-completed');
+                markCompletedBtn.addEventListener('click', () => {
+                    // Toggle completion status in localStorage
+                    const completed = localStorage.getItem(`step-${currentStep}-completed`) === "true";
+                    localStorage.setItem(`step-${currentStep}-completed`, !completed);
+                    renderSlide(); // Re-render slide to update the button text
+                });
+
+                updateStepLinkColor(); // Update the color of the step link
+            }
+
+            // Function to update the color of the step link
+            function updateStepLinkColor() {
+                stepLinks.forEach(link => {
+                    const step = link.getAttribute('data-step');
+                    const isCompleted = localStorage.getItem(`step-${step}-completed`) === "true";
+                    link.classList.toggle('completed', isCompleted);
+                    link.classList.toggle('not-completed', !isCompleted);
+                });
+            }
+
+            // Function to handle step link click
+            stepLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    currentStep = parseInt(event.target.getAttribute('data-step'));
+                    currentSlideIndex = 0; // Reset slide index when step changes
+                    renderSlide();
+                });
+            });
+
+            // Function to render the current step content and button
+            function renderSlide() {
+                const step = stepContent[currentStep];
+                stepTitle.innerText = step.title;
+
+                // Render slide content based on currentSlideIndex
+                const slide = step.slides[currentSlideIndex];
+                if (slide.type === 'text') {
+                    slideContent.innerHTML = `<p>${slide.content}</p>`;
+                } else if (slide.type === 'image') {
+                    slideContent.innerHTML = `<img src="${slide.src}" alt="Slide Image" style="max-width: 100%;">`;
+                }
+
+                renderStatusButton(); // Re-render the status button
+
+                // Disable/Enable Prev and Next buttons based on slide index
+                prevSlideBtn.disabled = currentSlideIndex === 0;
+                nextSlideBtn.disabled = currentSlideIndex === step.slides.length - 1;
+            }
+
+            // Event listeners for Previous and Next buttons
+            prevSlideBtn.addEventListener('click', () => {
+                if (currentSlideIndex > 0) {
+                    currentSlideIndex--;
+                    renderSlide();
+                }
+            });
+
+            nextSlideBtn.addEventListener('click', () => {
+                const step = stepContent[currentStep];
+                if (currentSlideIndex < step.slides.length - 1) {
+                    currentSlideIndex++;
+                    renderSlide();
+                }
+            });
+
+            // Initial render when the page loads
+            renderSlide();
+        });
+    </script>
+
+    <!-- FILE DOWNLOAD HANDLING SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleFileListBtn = document.getElementById("toggleFileList");
+            const fileList = document.getElementById("fileList");
+
+            toggleFileListBtn.addEventListener("click", () => {
+                fileList.style.display = fileList.style.display === "block" ? "none" : "block";
+            });
+
+            // Function to handle file download
+            window.downloadFile = function (filePath) {
+                const link = document.createElement('a');
+                link.href = filePath;
+                link.download = filePath.split('/').pop(); // Extracts the file name from the path
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link); // Clean up the DOM
+            };
+        });
+    </script>
+
+    <!-- FIREBASE AUTHENTICATION SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref, remove } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getAuth, deleteUser, signOut, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        // Firebase configuration and initialization
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS0BBI8nlRlGRoBAVnA6mn6RgpgDWveB4",
+            authDomain: "ctlt-d0867.firebaseapp.com",
+            projectId: "ctlt-d0867",
+            storageBucket: "ctlt-d0867.appspot.com",
+            messagingSenderId: "501375910023",
+            appId: "1:501375910023:web:d0bb2c6bb2c060a43d3822",
+            measurementId: "G-MSHZ8J6DKY",
+            databaseURL: "https://ctlt-d0867-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        // Authentication and user-related elements
+        let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+        let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+        const MsgHead = document.getElementById("msg");
+        const GreetHead = document.getElementById("greet");
+        const SignoutBtn = document.getElementById("signoutbutton");
+        const ConfirmDeleteBtn = document.getElementById("confirmdeletebtn");
+        const DeleteUserBtn = document.getElementById("deleteuserbtn");
+        const PasswordInp = document.getElementById("passwordInp");
+        const Modal = document.getElementById('exampleModal');
+        const CloseModalBtn = document.querySelector('.close-btn');
+        const UpdatePasswordBtn = document.getElementById('updnewpassbtn');
+
+        // Check user credentials and display the appropriate greeting
+        function CheckCred() {
+            if (!sessionStorage.getItem("user-creds")) {
+                window.location.href = "./html/login.html";
+            } else {
+                MsgHead.innerText = `User with email "${UserCreds.email}" logged in`;
+                GreetHead.innerText = `Welcome ${UserInfo.firstname} ${UserInfo.lastname}!`;
+                UpdatePasswordBtn.disabled = false; // Enable button if user is logged in
+            }
+        }
+
+        // Sign out function
+        function Signout() {
+            signOut(auth).then(() => {
+                sessionStorage.removeItem("user-creds");
+                sessionStorage.removeItem("user-info");
+                window.location.href = "./html/login.html";
+            }).catch(error => {
+                alert('Error signing out: ' + error.message);
+            });
+        }
+
+        // Delete user function
+        function DeleteUser() {
+            const user = auth.currentUser;
+            const credentials = EmailAuthProvider.credential(user.email, PasswordInp.value);
+            reauthenticateWithCredential(user, credentials)
+                .then(() => remove(ref(db, "UsersAuthList/" + user.uid)))
+                .then(() => deleteUser(auth.currentUser))
+                .then(() => {
+                    sessionStorage.removeItem("user-creds");
+                    sessionStorage.removeItem("user-info");
+                    window.location.href = "./html/login.html";
+                })
+                .catch(error => alert('Error: ' + error.message));
+        }
+
+        // Event listeners for authentication actions
+        window.addEventListener("load", CheckCred);
+        SignoutBtn.addEventListener("click", Signout);
+        DeleteUserBtn.addEventListener("click", () => Modal.classList.add('show')); // Show delete confirmation modal
+        ConfirmDeleteBtn.addEventListener("click", DeleteUser);
+        CloseModalBtn.addEventListener('click', () => Modal.classList.remove('show')); // Close modal
+
+        // Optional: Close modal when clicking outside the modal content
+        window.addEventListener('click', (event) => {
+            if (event.target === Modal) {
+                Modal.classList.remove('show');
+            }
+        });
+    </script>
+
+    <!-- VOICEFLOW CHAT INTEGRATION SCRIPT -->
+    <script type="text/javascript">
+        (function (d, t) {
+            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function () {
+                window.voiceflow.chat.load({
+                    verify: { projectID: '67016475572c298c66c6f6e8' },
+                    url: 'https://general-runtime.voiceflow.com',
+                    versionID: 'production'
+                });
+            }
+            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs";
+            v.type = "text/javascript";
+            s.parentNode.insertBefore(v, s);
+        })(document, 'script');
+    </script>
+
+</body>
+
+</html>

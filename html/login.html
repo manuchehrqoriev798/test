@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Firebase Auth</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+
+    <form id="MainForm" class="form-container">
+        <h2 class="form-title">Login User</h2>
+
+        <div class="form-group">
+            <input type="email" class="form-input" id="emailInp" placeholder="name@example.com" required>
+            <label for="emailInp" class="form-label">Email address</label>
+        </div>  
+        
+        <div class="form-group">
+            <input type="password" class="form-input" id="passwordInp" placeholder="Password" required>
+            <label for="passwordInp" class="form-label">Password</label>
+        </div>
+
+        <label id="forgotpasslabel" class="forgot-password" style="cursor:pointer;">Forgot Password</label>
+
+        <button type="submit" class="btn">Login</button>
+        <a href="./register.html"><button type="button" class="btn btn-signup">Sign Up</button></a>
+        <!-- <a href="../main/html/register.html"><button type="button" class="btn btn-signup">Sign Up</button></a> -->
+
+    </form>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, get, ref, child } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS0BBI8nlRlGRoBAVnA6mn6RgpgDWveB4",
+            authDomain: "ctlt-d0867.firebaseapp.com",
+            projectId: "ctlt-d0867",
+            storageBucket: "ctlt-d0867.appspot.com",
+            messagingSenderId: "501375910023",
+            appId: "1:501375910023:web:d0bb2c6bb2c060a43d3822",
+            measurementId: "G-MSHZ8J6DKY",
+            databaseURL: "https://ctlt-d0867-default-rtdb.firebaseio.com/"
+        };
+
+
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+        const dbref = ref(db);
+
+        let EmailInp = document.getElementById("emailInp");
+        let PassInp = document.getElementById("passwordInp");
+        let MainForm = document.getElementById("MainForm");
+        let ForgotPassLabel = document.getElementById("forgotpasslabel");
+
+        let SignInUser = evt => {
+            evt.preventDefault();
+
+            signInWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+                .then((credentials) => {
+                    // Check if email is verified
+                    if (credentials.user.emailVerified) {
+                        get(child(dbref, "UsersAuthList/" + credentials.user.uid)).then((snapshot) => {
+                            if (snapshot.exists()) {
+                                sessionStorage.setItem("user-info", JSON.stringify({
+                                    firstname: snapshot.val().firstname,
+                                    lastname: snapshot.val().lastname
+                                }));
+                                sessionStorage.setItem("user-creds", JSON.stringify(credentials.user));
+                                window.location.href = "../index.html";
+                                
+
+                            }
+                        });
+                    } else {
+                        alert("Please verify your email before logging in.");
+                    }
+                })
+                .catch((error) => {
+                    alert(error.message);
+                    console.log(error.code);
+                    console.log(error.message);
+                });
+        }
+
+        let ForgotPassword = () => {
+            sendPasswordResetEmail(auth, EmailInp.value)
+                .then(() => {
+                    alert("A Password Reset Link has been sent to your email");
+                })
+                .catch((error) => {
+                    console.log(error.code);
+                    console.log(error.message);
+                });
+        }
+
+        MainForm.addEventListener("submit", SignInUser);
+        ForgotPassLabel.addEventListener("click", ForgotPassword);
+    </script>
+</body>
+</html>
