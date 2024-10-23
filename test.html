@@ -10,6 +10,29 @@
 
 <body>
 
+    <!-- MODAL FOR DELETE CONFIRMATION -->
+    <div class="modal" id="exampleModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Delete Confirmation</h1>
+                    <button type="button" class="close-btn" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to delete this user?</p>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="passwordInp" placeholder="Password" required>
+                        <label for="passwordInp">Password</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn danger" id="confirmdeletebtn">Yes, delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- NAVBAR WITH PROFILE DROPDOWN -->
     <nav class="navbar">
         <div class="container">
@@ -25,10 +48,8 @@
     </nav>
 
     <!-- GREETING AND USER MESSAGES -->
-    <div class="greeting-container">
-        <h2 id="msg" class="greeting-message"></h2>
-        <h2 id="greet" class="greeting-message"></h2>
-    </div>
+    <h2 id="msg"></h2>
+    <h2 id="greet"></h2>
 
     <!-- MAIN CONTENT WITH STEPS AND SLIDES -->
     <div class="main-container">
@@ -67,29 +88,6 @@
         </ul>
     </div>
 
-    <!-- MODAL FOR DELETE CONFIRMATION -->
-    <div class="modal" id="exampleModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title">Delete Confirmation</h1>
-                    <button type="button" class="close-btn" aria-label="Close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p>Do you want to delete this user?</p>
-                    <div class="form-floating">
-                        <input type="password" class="form-control" id="passwordInp" placeholder="Password" required>
-                        <label for="passwordInp">Password</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn secondary" data-dismiss="modal">No</button>
-                    <button type="button" class="btn danger" id="confirmdeletebtn">Yes, delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- SCRIPT FOR DROPDOWN TOGGLE -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -113,6 +111,7 @@
     <!-- SCRIPT FOR STEP NAVIGATION, SLIDES, AND MARK AS COMPLETED -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Steps with multiple slides (text or images)
             const stepContent = {
                 1: {
                     title: "Step 1: Introduction",
@@ -218,7 +217,6 @@
                 // Loop through all slides in the current step
                 step.slides.forEach(slide => {
                     const slideElement = document.createElement('div');
-                    slideElement.classList.add('step-box'); // Add the step box class
                     
                     if (slide.type === 'text') {
                         let text = slide.content;
