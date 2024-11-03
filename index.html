@@ -14,7 +14,7 @@
     <nav class="navbar">
         <div class="container">
             <div class="navbar-profile" id="navbarProfile">
-                <img src="./img/profile.png" alt="Profile" class="profile-pic" id="profile-pic">
+                <img src="./media/profile.jpeg" alt="Profile" class="profile-pic" id="profile-pic">
                 <div class="dropdown-menu" id="dropdownMenu">
                     <a href="#" id="updnewpassbtn" class="dropdown-item">Update User Password & Info</a>
                     <a href="#" id="deleteuserbtn" class="dropdown-item">Delete This User</a>
@@ -35,12 +35,58 @@
         <div class="sidebar">
             <h2>Steps</h2>
             <ul>
-                <li><a href="#" class="step-link" data-step="1">Step 1</a></li>
-                <li><a href="#" class="step-link" data-step="2">Step 2</a></li>
-                <li><a href="#" class="step-link" data-step="3">Step 3</a></li>
-                <li><a href="#" class="step-link" data-step="4">Step 4</a></li>
-                <li><a href="#" class="step-link" data-step="5">Step 5</a></li>
+                <li>
+                    <a href="#" class="step-link" data-step="1">
+                        Step 1: Getting started with Moodle: login and change password
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="2">
+                        Step 2: Populating a Moodle page
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="3">
+                        Step 3: Taking attendance
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="4">
+                        Step 4: Setting up gradebook
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="5">
+                        Step 5: How to add a grade item or category?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="6">
+                        Step 6: How to setup Grade item weights?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="7">
+                        Step 7: How do students see their grade report?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="8">
+                        Step 8: Adding rubric into assignment
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="9">
+                        Step 9
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="10">
+                        Step 10
+                    </a>
+                </li>
             </ul>
+            
         </div>
 
         <div class="content" id="step-content">
@@ -115,7 +161,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const stepContent = {
                 1: {
-                    title: "Step 1: Introduction",
+                    title: "Step 1: Getting Started with Moodle: Login and Change Password",
                     slides: [
                         { 
                             type: 'text', 
@@ -124,80 +170,474 @@
                         { 
                             type: 'text-image', 
                             content: [
-                                { text: "Type your username (usually an 8-digit number). You will receive your username via e-mail) or from the Moodle admin in the CTLT team and click \"Log In\"" },
-                                { image: "./img/moodle_2.jpeg" }
+                                { text: "Type your username (usually an 8-digit number). You will receive your username via e-mail or from the Moodle admin in the CTLT team and click \"Log In\"." },
+                                { image: "./media/moodle_2.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
                                 { text: "In order to change your password, find your profile in the upper left corner under your initials. Open the drop-down menu." },
-                                { image: "./img/moodle_3.jpeg" }
+                                { image: "./media/moodle_3.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
-                                { text: "Click \"Profile\"" },
-                                { image: "./img/moodle_4.jpeg" }
+                                { text: "Click \"Profile\"." },
+                                { image: "./media/moodle_4.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
-                                { text: "Click \"Edit profil\"" },
-                                { image: "./img/moodle_5.jpeg" }
+                                { text: "Click \"Edit profile\"." },
+                                { image: "./media/moodle_5.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
                                 { text: "Type in your new password." },
-                                { image: "./img/moodle_6.jpeg" }
+                                { image: "./media/moodle_6.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
-                                { text: "Click \"update profile\"" },
-                                { image: "./img/moodle_7.jpeg" }
+                                { text: "Click \"Update profile\" to save your new password." },
+                                { image: "./media/moodle_7.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
                                 { text: "Go to \"My courses\" on the main menu." },
-                                { image: "./img/moodle_8.jpeg" }
+                                { image: "./media/moodle_8.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
-                                { text: "You can all courses you're enrolled in here" },
-                                { image: "./img/moodle_9.jpeg" }
+                                { text: "You can see all the courses you're enrolled in here." },
+                                { image: "./media/moodle_9.jpeg" }
                             ] 
                         },
                         { 
                             type: 'text-image', 
                             content: [
-                                { text: "You can all courses you're enrolled in here" },
-                                { image: "./img/moodle_10.jpeg" }
+                                { text: "Select the course you wish to access." },
+                                { image: "./media/moodle_10.jpeg" }
                             ] 
                         }
                     ]
                 },
                 2: {
-                    title: "Step 2: Overview",
+                    title: "Step 2: Logging and Navigating into the UCA Moodle Website",
                     slides: [
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/."
+                        },
                         { 
                             type: 'text-image', 
                             content: [
-                                { text: "This is the content for Step 2. Here you can include more detailed information." },
-                                { image: "./img/step2_image1.png" }
+                                { text: "Enter your username (your SAP ID) and password (that you have set yourself), then click \"Log in\"." },
+                                { image: "./media/moodleP1.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"My courses\" to see the courses that you are enrolled in." },
+                                { image: "./media/moodleP2.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click on the course that you want to open. In this example, it is a course named \"Test\"." },
+                                { image: "./media/moodleP3.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "If you want to make any changes on the course page, click on \"Edit mode\" to activate it." },
+                                { image: "./media/moodleP4.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Go to the right section. In order to add any new item, click the \"+\" sign." },
+                                { image: "./media/moodleP5.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "And choose a format of an activity or resource you need." },
+                                { image: "./media/moodleP6.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "In this example, I chose \"Assignment\" format. Now you need to fill out the information like the Assignment name, description etc." },
+                                { image: "./media/moodleP7.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "As shown here, just type in the informaiton." },
+                                { image: "./media/moodleP8.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Change the setting based on the specifics of this assignment, inluding dates, format, restrictions etc." },
+                                { image: "./media/moodleP9.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Save and display\" to save all the changes." },
+                                { image: "./media/moodleP10.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "When you finished all setting, turn off the \"Edit mode\"." },
+                                { image: "./media/moodleP10.jpeg" } // Replace with actual image path
+                            ] 
+                        }
+                    ]
+                },
+                3: {
+                    title: "Step 3: Adding Attendance to Your Course",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/."
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click on the \"My course\" tab, where you will see all courses you are enrolled in. Click on the course you want to edit now." },
+                                { image: "./media/moodleA2.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Edit mode\"." },
+                                { image: "./media/moodleA3.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Go to any section and click on the \"+\" sign to choose the activity." },
+                                { image: "./media/moodleA4.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "From the given list, choose \"Attendance\"." },
+                                { image: "./media/moodleA5.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Customize the Attendance by adding a name, description, etc." },
+                                { image: "./media/moodleA6.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Then click the \"Save and display\" button to save all the changes. As the next step, we will add the sessions according to your class schedule." },
+                                { image: "./media/moodleA7.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now, based on the schedule, add the session (lessons) where you need to take attendance." },
+                                { image: "./media/moodleA8.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "In the date field, indicate the first day of your lessons (exact date) and time slots of your lesson according to the schedule." },
+                                { image: "./media/moodleA9.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "For example, if your lesson starts at 10:00 and finishes at 11:30, indicate that time slot." },
+                                { image: "./media/moodleA10.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Since we need to create a series of sessions, click \"Multiple sessions\"." },
+                                { image: "./media/moodleA11.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Repeat the session above as follows\" and mark the days of the week on which your class is conducted. For example: Monday and Wednesday." },
+                                { image: "./media/moodleA12.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Indicate the last date of your session (class) according to the schedule. Moodle will automatically create sessions until that date." },
+                                { image: "./media/moodleA13.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Add\" button to add these sessions into the Attendance schedule." },
+                                { image: "./media/moodleA14.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now you have all the sessions created for every Monday and Wednesday starting from Monday, 17 July till Wednesday, 13 September." },
+                                { image: "./media/moodleA15.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now, when your class starts, choose the relevant session by date and click on the blue triangle button as shown here." },
+                                { image: "./media/moodleA16.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Inside that session, you will see the student list. You need to choose their status: P (Present), L (Late), E (Excused), A (Absent)." },
+                                { image: "./media/moodleA17.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click on \"Save and show next page\" to save all changes." },
+                                { image: "./media/moodleA18.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "You repeat the same actions for the next session." },
+                                { image: "./media/moodleA19.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now you can see the Attendance in your course page." },
+                                { image: "./media/moodleA20.jpeg" } // Replace with actual image path
+                            ] 
+                        }
+                    ]
+                },
+                4: { // Adding Step 4
+                    title: "Step 4: Managing Gradebook Categories in UCA Moodle",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/grade/report/grader/index.php?id=358"
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Open your course." },
+                                { image: "./media/moodleSG2.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Grades\"." },
+                                { image: "./media/moodleSG3.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Grader report\"." },
+                                { image: "./media/moodleSG4.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Gradebook setup\"." },
+                                { image: "./media/moodleSG5.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Add category\"." },
+                                { image: "./media/moodleSG6.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Category name\" field. A category consists of several assignments and will be weighted as one item." },
+                                { image: "./media/moodleSG7.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Enter the category name." },
+                                { image: "./media/moodleSG8.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Always save changes." },
+                                { image: "./media/moodleSG9.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Assign the weight for the new category." },
+                                { image: "./media/moodleSG10.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Type \"20\"." }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Save changes." },
+                                { image: "./media/moodleSG12.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Once you have created a category, you can add items into that category." },
+                                { image: "./media/moodleSG13.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Item name\" field." },
+                                { image: "./media/moodleSG14.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "When adding an item, you can indicate which category to add it to. Choose from the drop-down list of existing categories." },
+                                { image: "./media/moodleSG15.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Save changes." },
+                                { image: "./media/moodleSG16.jpeg" } // Replace with actual image path
+                            ] 
+                        }
+                    ]
+                },
+                5: {
+                    title: "Step 5: How to Add a Grade Item or Category",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "How to add a grade item or category?"
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To add a grade item or category, follow these steps:" },
+                                { image: "./media/step5.mp4" } // Replace with actual video path
+                            ] 
+                        }
+                    ]
+                },
+                6: {
+                    title: "Step 6: How to Setup Grade Item Weights",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "How to setup Grade item weights?"
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To set up grade item weights, proceed as follows:" },
+                                { image: "./media/step6.mp4" } // Replace with actual video path
+                            ] 
+                        }
+                    ]
+                },
+                7: {
+                    title: "Step 7: How Do Students See Their Grade Report",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "How do students see their grade report?"
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To view their grade report, students can:" },
+                                { image: "./media/step7.mp4" } // Replace with actual video path
+                            ] 
+                        }
+                    ]
+                },
+                8: {
+                    title: "Step 8: Adding rubric into assignment",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Integrating the rubric feature into Moodle assignments offers a transformative teaching experience by saving time with structured grading criteria, clearly communicating expectations to students, and effortlessly providing detailed, constructive feedback, thereby enhancing teaching effectiveness and student success."
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To view how to add rubric into assignment, check this video:" },
+                                { image: "./media/step8.mp4" } // Replace with actual video path
                             ] 
                         }
                     ]
                 }
+
             };
             
 
@@ -207,16 +647,16 @@
             const statusBtnContainer = document.getElementById('status-btn-container');
             const stepTitle = document.getElementById('step-title');
             const slideContent = document.getElementById('slide-content');
-
+    
             // Function to render the slides vertically
             function renderSlides() {
                 const step = stepContent[currentStep];
                 stepTitle.innerText = step.title;
-
+    
                 slideContent.innerHTML = ''; // Clear previous content
                 
                 // Loop through all slides in the current step
-                step.slides.forEach(slide => {
+                step.slides.forEach((slide, index) => {
                     const slideElement = document.createElement('div');
                     slideElement.classList.add('step-box'); // Add the step box class
                     
@@ -233,6 +673,17 @@
                             <p>${clickableText}</p>
                             <img src="${slide.content[1].image}" alt="Slide Image" style="max-width: 100%;">
                         `;
+                    } else if (slide.type === 'text-video') {
+                        const text = slide.content[0].text;
+                        let clickableText = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                        const videoPath = slide.content[1].video;
+                        slideElement.innerHTML = `
+                            <p>${clickableText}</p>
+                            <video controls style="max-width: 100%;">
+                                <source src="${videoPath}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        `;
                     }
                     
                     slideContent.appendChild(slideElement);
@@ -240,7 +691,7 @@
                 
                 renderStatusButton();
             }
-
+    
             // Render "Mark as Completed" button
             function renderStatusButton() {
                 const isCompleted = localStorage.getItem(`step-${currentStep}-completed`) === "true";
@@ -259,7 +710,7 @@
                 
                 updateStepLinkColor();
             }
-
+    
             // Update step link color based on completion status
             function updateStepLinkColor() {
                 stepLinks.forEach(link => {
@@ -269,7 +720,7 @@
                     link.classList.toggle('not-completed', !isCompleted);
                 });
             }
-
+    
             // Handle step link clicks
             stepLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
@@ -278,7 +729,7 @@
                     renderSlides();
                 });
             });
-
+    
             // Initial render when page loads
             renderSlides();
         });
