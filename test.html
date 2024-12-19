@@ -1,0 +1,1177 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link rel="stylesheet" href="../css/ctlt.css">
+</head>
+
+<body>
+    <!-- NAVBAR WITH PROFILE DROPDOWN -->
+    <nav class="modern-navbar ctlt-theme">
+        <div class="container">
+            <div class="navbar-profile" id="navbarProfile">
+                <img src="./media/profile.jpeg" alt="Profile" class="profile-pic" id="profile-pic">
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="#" id="updnewpassbtn" class="dropdown-item">Update User Password & Info</a>
+                    <a href="#" id="deleteuserbtn" class="dropdown-item">Delete This User</a>
+                    <a href="#" id="signoutbutton" class="dropdown-item">Sign Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- GREETING AND USER MESSAGES -->
+    <div class="greeting-container">
+        <h2 id="msg" class="greeting-message"></h2>
+        <h2 id="greet" class="greeting-message"></h2>
+    </div>
+
+    <!-- MAIN CONTENT WITH STEPS AND SLIDES -->
+    <div class="main-container">
+        <div class="sidebar">
+            <h2>Steps</h2>
+            <ul>
+                <li>
+                    <a href="#" class="step-link" data-step="1">
+                        Step 1: Getting started with Moodle: login and change password
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="2">
+                        Step 2: Populating a Moodle page
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="3">
+                        Step 3: Taking attendance
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="4">
+                        Step 4: Setting up gradebook
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="5">
+                        Step 5: How to add a grade item or category?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="6">
+                        Step 6: How to setup Grade item weights?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="7">
+                        Step 7: How do students see their grade report?
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="8">
+                        Step 8: Adding rubric into assignment
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="9">
+                        Step 9
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="step-link" data-step="10">
+                        Step 10
+                    </a>
+                </li>
+            </ul>
+            
+        </div>
+
+        <div class="content" id="step-content">
+            <h3 id="step-title">Step 1: Introduction</h3>
+            <div id="slide-content"></div>
+            <div id="status-btn-container"></div>
+        </div>
+    </div>
+
+    <!-- FILE DOWNLOAD SECTION -->
+    <div class="file-download-section">
+        <h2>Download Files</h2>
+        <button class="btn" id="toggleFileList">Download Files</button>
+        <ul class="file-list" id="fileList">
+            <li>
+                File 1 <button class="btn download-btn" onclick="downloadFile('./files/Qoriev_Manuchehr_Resume.pdf')">Download</button>
+            </li>
+            <li>
+                File 2 <button class="btn download-btn" onclick="downloadFile('./files/Qoriev_Manuchehr_Resume.pdf')">Download</button>
+            </li>
+            <li>
+                File 3 <button class="btn download-btn" onclick="downloadFile('./files/Qoriev_Manuchehr_Resume.pdf')">Download</button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- MODAL FOR DELETE CONFIRMATION -->
+    <div class="modal" id="exampleModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Delete Confirmation</h1>
+                    <button type="button" class="close-btn" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to delete this user?</p>
+                    <div class="form-floating">
+                        <input type="password" class="form-control" id="passwordInp" placeholder="Password" required>
+                        <label for="passwordInp">Password</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn danger" id="confirmdeletebtn">Yes, delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT FOR DROPDOWN TOGGLE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const profilePic = document.getElementById('profile-pic');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            profilePic.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent event from bubbling up to window
+                dropdownMenu.classList.toggle('show');
+            });
+
+            // Close the dropdown if clicked outside
+            window.addEventListener('click', function (event) {
+                if (!event.target.closest('.navbar-profile')) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    <!-- SCRIPT FOR STEP NAVIGATION, SLIDES, AND MARK AS COMPLETED -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stepContent = {
+                1: {
+                    title: "Step 1: Getting Started with Moodle: Login and Change Password",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/login/index.php"
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Type your username (usually an 8-digit number). You will receive your username via e-mail or from the Moodle admin in the CTLT team and click \"Log In\"." },
+                                { image: "./media/moodle_2.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "In order to change your password, find your profile in the upper left corner under your initials. Open the drop-down menu." },
+                                { image: "./media/moodle_3.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Profile\"." },
+                                { image: "./media/moodle_4.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Edit profile\"." },
+                                { image: "./media/moodle_5.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Type in your new password." },
+                                { image: "./media/moodle_6.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Update profile\" to save your new password." },
+                                { image: "./media/moodle_7.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Go to \"My courses\" on the main menu." },
+                                { image: "./media/moodle_8.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "You can see all the courses you're enrolled in here." },
+                                { image: "./media/moodle_9.jpeg" }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Select the course you wish to access." },
+                                { image: "./media/moodle_10.jpeg" }
+                            ] 
+                        }
+                    ]
+                },
+                2: {
+                    title: "Step 2: Logging and Navigating into the UCA Moodle Website",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/."
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Enter your username (your SAP ID) and password (that you have set yourself), then click \"Log in\"." },
+                                { image: "./media/moodleP1.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"My courses\" to see the courses that you are enrolled in." },
+                                { image: "./media/moodleP2.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click on the course that you want to open. In this example, it is a course named \"Test\"." },
+                                { image: "./media/moodleP3.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "If you want to make any changes on the course page, click on \"Edit mode\" to activate it." },
+                                { image: "./media/moodleP4.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Go to the right section. In order to add any new item, click the \"+\" sign." },
+                                { image: "./media/moodleP5.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "And choose a format of an activity or resource you need." },
+                                { image: "./media/moodleP6.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "In this example, I chose \"Assignment\" format. Now you need to fill out the information like the Assignment name, description etc." },
+                                { image: "./media/moodleP7.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "As shown here, just type in the informaiton." },
+                                { image: "./media/moodleP8.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Change the setting based on the specifics of this assignment, inluding dates, format, restrictions etc." },
+                                { image: "./media/moodleP9.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Save and display\" to save all the changes." },
+                                { image: "./media/moodleP10.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "When you finished all setting, turn off the \"Edit mode\"." },
+                                { image: "./media/moodleP10.jpeg" } // Replace with actual image path
+                            ] 
+                        }
+                    ]
+                },
+                3: {
+                    title: "Step 3: Adding Attendance to Your Course",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/."
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click on the \"My course\" tab, where you will see all courses you are enrolled in. Click on the course you want to edit now." },
+                                { image: "./media/moodleA2.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Edit mode\"." },
+                                { image: "./media/moodleA3.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Go to any section and click on the \"+\" sign to choose the activity." },
+                                { image: "./media/moodleA4.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "From the given list, choose \"Attendance\"." },
+                                { image: "./media/moodleA5.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Customize the Attendance by adding a name, description, etc." },
+                                { image: "./media/moodleA6.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Then click the \"Save and display\" button to save all the changes. As the next step, we will add the sessions according to your class schedule." },
+                                { image: "./media/moodleA7.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now, based on the schedule, add the session (lessons) where you need to take attendance." },
+                                { image: "./media/moodleA8.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "In the date field, indicate the first day of your lessons (exact date) and time slots of your lesson according to the schedule." },
+                                { image: "./media/moodleA9.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "For example, if your lesson starts at 10:00 and finishes at 11:30, indicate that time slot." },
+                                { image: "./media/moodleA10.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Since we need to create a series of sessions, click \"Multiple sessions\"." },
+                                { image: "./media/moodleA11.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Repeat the session above as follows\" and mark the days of the week on which your class is conducted. For example: Monday and Wednesday." },
+                                { image: "./media/moodleA12.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Indicate the last date of your session (class) according to the schedule. Moodle will automatically create sessions until that date." },
+                                { image: "./media/moodleA13.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Add\" button to add these sessions into the Attendance schedule." },
+                                { image: "./media/moodleA14.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now you have all the sessions created for every Monday and Wednesday starting from Monday, 17 July till Wednesday, 13 September." },
+                                { image: "./media/moodleA15.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now, when your class starts, choose the relevant session by date and click on the blue triangle button as shown here." },
+                                { image: "./media/moodleA16.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Inside that session, you will see the student list. You need to choose their status: P (Present), L (Late), E (Excused), A (Absent)." },
+                                { image: "./media/moodleA17.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click on \"Save and show next page\" to save all changes." },
+                                { image: "./media/moodleA18.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "You repeat the same actions for the next session." },
+                                { image: "./media/moodleA19.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Now you can see the Attendance in your course page." },
+                                { image: "./media/moodleA20.jpeg" } // Replace with actual image path
+                            ] 
+                        }
+                    ]
+                },
+                4: { // Adding Step 4
+                    title: "Step 4: Managing Gradebook Categories in UCA Moodle",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Navigate to https://ucasaslms.org/grade/report/grader/index.php?id=358"
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Open your course." },
+                                { image: "./media/moodleSG2.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Grades\"." },
+                                { image: "./media/moodleSG3.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Grader report\"." },
+                                { image: "./media/moodleSG4.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Gradebook setup\"." },
+                                { image: "./media/moodleSG5.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click \"Add category\"." },
+                                { image: "./media/moodleSG6.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Category name\" field. A category consists of several assignments and will be weighted as one item." },
+                                { image: "./media/moodleSG7.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Enter the category name." },
+                                { image: "./media/moodleSG8.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Always save changes." },
+                                { image: "./media/moodleSG9.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Assign the weight for the new category." },
+                                { image: "./media/moodleSG10.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Type \"20\"." }
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Save changes." },
+                                { image: "./media/moodleSG12.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Once you have created a category, you can add items into that category." },
+                                { image: "./media/moodleSG13.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Click the \"Item name\" field." },
+                                { image: "./media/moodleSG14.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "When adding an item, you can indicate which category to add it to. Choose from the drop-down list of existing categories." },
+                                { image: "./media/moodleSG15.jpeg" } // Replace with actual image path
+                            ] 
+                        },
+                        { 
+                            type: 'text-image', 
+                            content: [
+                                { text: "Save changes." },
+                                { image: "./media/moodleSG16.jpeg" } // Replace with actual image path
+                            ] 
+                        }
+                    ]
+                },
+                5: {
+                    title: "Step 5: How to Add a Grade Item or Category",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "How to add a grade item or category?"
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To add a grade item or category, follow these steps:" },
+                                { image: "./media/step5.mp4" } // Replace with actual video path
+                            ] 
+                        }
+                    ]
+                },
+                6: {
+                    title: "Step 6: How to Setup Grade Item Weights",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "How to setup Grade item weights?"
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To set up grade item weights, proceed as follows:" },
+                                { image: "./media/step6.mp4" } // Replace with actual video path
+                            ] 
+                        }
+                    ]
+                },
+                7: {
+                    title: "Step 7: How Do Students See Their Grade Report",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "How do students see their grade report?"
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To view their grade report, students can:" },
+                                { image: "./media/step7.mp4" } // Replace with actual video path
+                            ] 
+                        }
+                    ]
+                },
+                8: {
+                    title: "Step 8: Adding rubric into assignment",
+                    slides: [
+                        { 
+                            type: 'text', 
+                            content: "Integrating the rubric feature into Moodle assignments offers a transformative teaching experience by saving time with structured grading criteria, clearly communicating expectations to students, and effortlessly providing detailed, constructive feedback, thereby enhancing teaching effectiveness and student success."
+                        },
+                        { 
+                            type: 'text-video', 
+                            content: [
+                                { text: "To view how to add rubric into assignment, check this video:" },
+                                { image: "./media/step8.mp4" } // Replace with actual video path
+                            ] 
+                        }
+                    ]
+                }
+
+            };
+            
+
+            let currentStep = 1;
+
+            const stepLinks = document.querySelectorAll('.step-link');
+            const statusBtnContainer = document.getElementById('status-btn-container');
+            const stepTitle = document.getElementById('step-title');
+            const slideContent = document.getElementById('slide-content');
+    
+            // Function to render the slides vertically
+            function renderSlides() {
+                const step = stepContent[currentStep];
+                stepTitle.innerText = step.title;
+    
+                slideContent.innerHTML = ''; // Clear previous content
+                
+                // Loop through all slides in the current step
+                step.slides.forEach((slide, index) => {
+                    const slideElement = document.createElement('div');
+                    slideElement.classList.add('step-box'); // Add the step box class
+                    
+                    if (slide.type === 'text') {
+                        let text = slide.content;
+                        let clickableText = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                        slideElement.innerHTML = `<p>${clickableText}</p>`;
+                    } else if (slide.type === 'image') {
+                        slideElement.innerHTML = `<img src="${slide.src}" alt="Slide Image" style="max-width: 100%;">`;
+                    } else if (slide.type === 'text-image') {
+                        const text = slide.content[0].text;
+                        let clickableText = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                        slideElement.innerHTML = `
+                            <p>${clickableText}</p>
+                            <img src="${slide.content[1].image}" alt="Slide Image" style="max-width: 100%;">
+                        `;
+                    } else if (slide.type === 'text-video') {
+                        const text = slide.content[0].text;
+                        let clickableText = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+                        const videoPath = slide.content[1].video;
+                        slideElement.innerHTML = `
+                            <p>${clickableText}</p>
+                            <video controls style="max-width: 100%;">
+                                <source src="${videoPath}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        `;
+                    }
+                    
+                    slideContent.appendChild(slideElement);
+                });
+                
+                renderStatusButton();
+            }
+    
+            // Render "Mark as Completed" button
+            function renderStatusButton() {
+                const isCompleted = localStorage.getItem(`step-${currentStep}-completed`) === "true";
+                statusBtnContainer.innerHTML = `
+                    <button id="mark-completed" class="btn ${isCompleted ? 'completed' : 'not-completed'}">
+                        ${isCompleted ? "Marked as Completed" : "Mark as Completed"}
+                    </button>
+                `;
+                
+                const markCompletedBtn = document.getElementById('mark-completed');
+                markCompletedBtn.addEventListener('click', () => {
+                    const completed = localStorage.getItem(`step-${currentStep}-completed`) === "true";
+                    localStorage.setItem(`step-${currentStep}-completed`, !completed);
+                    renderSlides(); // Re-render the slides to update the status button
+                });
+                
+                updateStepLinkColor();
+            }
+    
+            // Update step link color based on completion status
+            function updateStepLinkColor() {
+                stepLinks.forEach(link => {
+                    const step = link.getAttribute('data-step');
+                    const isCompleted = localStorage.getItem(`step-${step}-completed`) === "true";
+                    link.classList.toggle('completed', isCompleted);
+                    link.classList.toggle('not-completed', !isCompleted);
+                });
+            }
+    
+            // Handle step link clicks
+            stepLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    currentStep = parseInt(event.target.getAttribute('data-step'));
+                    renderSlides();
+                });
+            });
+    
+            // Initial render when page loads
+            renderSlides();
+        });
+    </script>
+
+    <!-- FILE DOWNLOAD HANDLING SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleFileListBtn = document.getElementById("toggleFileList");
+            const fileList = document.getElementById("fileList");
+
+            toggleFileListBtn.addEventListener("click", () => {
+                fileList.style.display = fileList.style.display === "block" ? "none" : "block";
+            });
+
+            // Function to handle file download
+            window.downloadFile = function (filePath) {
+                const link = document.createElement('a');
+                link.href = filePath;
+                link.download = filePath.split('/').pop(); // Extracts the file name from the path
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link); // Clean up the DOM
+            };
+        });
+    </script>
+
+    <!-- FIREBASE AUTHENTICATION SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, ref, remove } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getAuth, deleteUser, signOut, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        // Firebase configuration and initialization
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS0BBI8nlRlGRoBAVnA6mn6RgpgDWveB4",
+            authDomain: "ctlt-d0867.firebaseapp.com",
+            projectId: "ctlt-d0867",
+            storageBucket: "ctlt-d0867.appspot.com",
+            messagingSenderId: "501375910023",
+            appId: "1:501375910023:web:d0bb2c6bb2c060a43d3822",
+            measurementId: "G-MSHZ8J6DKY",
+            databaseURL: "https://ctlt-d0867-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        // Authentication and user-related elements
+        let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+        let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+        const MsgHead = document.getElementById("msg");
+        const GreetHead = document.getElementById("greet");
+        const SignoutBtn = document.getElementById("signoutbutton");
+        const ConfirmDeleteBtn = document.getElementById("confirmdeletebtn");
+        const DeleteUserBtn = document.getElementById("deleteuserbtn");
+        const PasswordInp = document.getElementById("passwordInp");
+        const Modal = document.getElementById('exampleModal');
+        const CloseModalBtn = document.querySelector('.close-btn');
+        const UpdatePasswordBtn = document.getElementById('updnewpassbtn');
+
+        // Check user credentials and display the appropriate greeting
+        function CheckCred() {
+            if (!sessionStorage.getItem("user-creds")) {
+                window.location.href = "./html/login.html";
+            } else {
+                MsgHead.innerText = `User with email "${UserCreds.email}" logged in`;
+                GreetHead.innerText = `Welcome ${UserInfo.firstname} ${UserInfo.lastname}!`;
+                UpdatePasswordBtn.disabled = false; // Enable button if user is logged in
+            }
+        }
+
+        // Sign out function
+        function Signout() {
+            signOut(auth).then(() => {
+                sessionStorage.removeItem("user-creds");
+                sessionStorage.removeItem("user-info");
+                window.location.href = "./html/login.html";
+            }).catch(error => {
+                alert('Error signing out: ' + error.message);
+            });
+        }
+
+        // Delete user function
+        function DeleteUser() {
+            const user = auth.currentUser;
+            const credentials = EmailAuthProvider.credential(user.email, PasswordInp.value);
+            reauthenticateWithCredential(user, credentials)
+                .then(() => remove(ref(db, "UsersAuthList/" + user.uid)))
+                .then(() => deleteUser(auth.currentUser))
+                .then(() => {
+                    sessionStorage.removeItem("user-creds");
+                    sessionStorage.removeItem("user-info");
+                    window.location.href = "./html/login.html";
+                })
+                .catch(error => alert('Error: ' + error.message));
+        }
+
+        // Event listeners for authentication actions
+        window.addEventListener("load", CheckCred);
+        SignoutBtn.addEventListener("click", Signout);
+        DeleteUserBtn.addEventListener("click", () => Modal.classList.add('show')); // Show delete confirmation modal
+        ConfirmDeleteBtn.addEventListener("click", DeleteUser);
+        CloseModalBtn.addEventListener('click', () => Modal.classList.remove('show')); // Close modal
+
+        // Optional: Close modal when clicking outside the modal content
+        window.addEventListener('click', (event) => {
+            if (event.target === Modal) {
+                Modal.classList.remove('show');
+            }
+        });
+    </script>
+
+    <!-- VOICEFLOW CHAT INTEGRATION SCRIPT -->
+    <script type="text/javascript">
+        (function (d, t) {
+            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function () {
+                window.voiceflow.chat.load({
+                    verify: { projectID: '67016475572c298c66c6f6e8' },
+                    url: 'https://general-runtime.voiceflow.com',
+                    versionID: 'production'
+                });
+            }
+            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs";
+            v.type = "text/javascript";
+            s.parentNode.insertBefore(v, s);
+        })(document, 'script');
+    </script>
+
+    <!-- Add this script before the closing body tag -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const getStartedBtn = document.getElementById('getStartedBtn');
+            const platformModal = document.getElementById('platformModal');
+            const ctltBtn = document.getElementById('ctltBtn');
+            const moodleBtn = document.getElementById('moodleBtn');
+
+            // Show platform selection modal when Get Started is clicked
+            getStartedBtn.addEventListener('click', () => {
+                platformModal.classList.add('show');
+            });
+
+            // Handle CTLT button click
+            ctltBtn.addEventListener('click', () => {
+                window.location.href = '#step-content'; // Navigate to existing content
+                platformModal.classList.remove('show');
+            });
+
+            // Handle Moodle button click
+            moodleBtn.addEventListener('click', () => {
+                window.open('https://ucasaslms.org/', '_blank'); // Open Moodle in new tab
+                platformModal.classList.remove('show');
+            });
+
+            // Close modal when clicking outside
+            platformModal.addEventListener('click', (e) => {
+                if (e.target === platformModal) {
+                    platformModal.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Add authentication check
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!sessionStorage.getItem("user-creds")) {
+                window.location.href = './login.html?platform=ctlt';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTLT - Welcome</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <!-- Add Font Awesome for modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Animated background with particles -->
+    <div id="particles-js"></div>
+
+    <div class="hero-section">
+        <nav class="modern-navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="./media/uca-logo.png" alt="UCA Logo" class="logo-spin">
+                    <span class="gradient-text">CTLT</span>
+                </div>
+                <div class="nav-buttons">
+                    <a href="./html/login.html" class="nav-btn login-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </a>
+                    <a href="./html/profile.html" class="nav-btn profile-btn" id="profileBtn" style="display: none;">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a href="./html/register.html" class="nav-btn signup-btn" id="signupBtn">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                    <a href="#" class="nav-btn logout-btn" id="logoutBtn" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="gradient-text slide-in-left">Welcome to CTLT Platform</h1>
+                <p class="slide-in-left delay-1">Your comprehensive learning management solution for modern education.</p>
+                <button id="getStartedBtn" class="cta-button">Get Started</button>
+            </div>
+            <div class="hero-visual">
+                <div class="animated-letters">
+                    <div class="energy-field"></div>
+                    <span class="letter letter-c">C</span>
+                    <span class="letter letter-t1">T</span>
+                    <span class="letter letter-l">L</span>
+                    <span class="letter letter-t2">T</span>
+                    <div class="particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platform Selection Modal -->
+    <div id="platformModal" class="platform-modal">
+        <div class="platform-modal-content">
+            <h2 class="gradient-text">Choose Your Platform</h2>
+            <div class="platform-buttons">
+                <button id="ctltBtn" class="platform-btn ctlt-theme">
+                    <div class="platform-info">
+                        <span class="platform-name">CTLT Platform</span>
+                        <span class="platform-desc">Teaching & Learning Tools</span>
+                    </div>
+                </button>
+                <button id="moodleBtn" class="platform-btn moodle-theme">
+                    <div class="platform-info">
+                        <span class="platform-name">Moodle Platform</span>
+                        <span class="platform-desc">Course Management</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const getStartedBtn = document.getElementById('getStartedBtn');
+            const platformModal = document.getElementById('platformModal');
+            const ctltBtn = document.getElementById('ctltBtn');
+            const moodleBtn = document.getElementById('moodleBtn');
+
+            // Add scroll animation for navbar
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.modern-navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Platform modal interactions
+            getStartedBtn.addEventListener('click', () => {
+                platformModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Check login status and update UI
+            function checkLoginStatus() {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                const loginBtn = document.getElementById('loginBtn');
+                const profileBtn = document.getElementById('profileBtn');
+                const signupBtn = document.getElementById('signupBtn');
+                const logoutBtn = document.getElementById('logoutBtn');
+
+                if (isLoggedIn) {
+                    loginBtn.style.display = 'none';
+                    signupBtn.style.display = 'none';
+                    profileBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'inline-block';
+                } else {
+                    loginBtn.style.display = 'inline-block';
+                    signupBtn.style.display = 'inline-block';
+                    profileBtn.style.display = 'none';
+                    logoutBtn.style.display = 'none';
+                }
+            }
+
+            // Handle logout
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('isLoggedIn');
+                checkLoginStatus();
+            });
+
+            // Modify platform button click handlers
+            ctltBtn.addEventListener('click', () => {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (isLoggedIn) {
+                    window.location.href = './html/dashboard.html?platform=ctlt';
+                } else {
+                    window.location.href = './html/login.html?platform=ctlt';
+                }
+            });
+
+            moodleBtn.addEventListener('click', () => {
+                window.location.href = './html/login.html?platform=moodle';
+            });
+
+            platformModal.addEventListener('click', (e) => {
+                if (e.target === platformModal) {
+                    platformModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Add hover effect for platform buttons
+            const platformBtns = document.querySelectorAll('.platform-btn');
+            platformBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.classList.add('hover');
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.classList.remove('hover');
+                });
+            });
+
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: ['#E77F00', '#9C27B0']
+                    },
+                    shape: {
+                        type: 'circle'
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true
+                    },
+                    size: {
+                        value: 3,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#E77F00',
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'grab'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+
+            // Check login status when page loads
+            checkLoginStatus();
+        });
+    </script>
+</body>
+
+</html>

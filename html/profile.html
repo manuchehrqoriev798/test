@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTLT - Profile</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated background with particles -->
+    <div id="particles-js"></div>
+
+    <div class="auth-container">
+        <div class="form-box">
+            <div class="form-header">
+                <img src="../media/uca-logo.png" alt="UCA Logo" class="logo-spin">
+                <h2 class="gradient-text">Profile</h2>
+                <p>Your Account Information</p>
+            </div>
+
+            <div id="profile-info">
+                <div class="profile-details">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-info-group">
+                        <div class="profile-info-label">First Name</div>
+                        <div class="profile-info-value" id="firstName">Loading...</div>
+                    </div>
+
+                    <div class="profile-info-group">
+                        <div class="profile-info-label">Last Name</div>
+                        <div class="profile-info-value" id="lastName">Loading...</div>
+                    </div>
+
+                    <div class="profile-info-group">
+                        <div class="profile-info-label">Email</div>
+                        <div class="profile-info-value" id="userEmail">Loading...</div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="profile-action-btn back-btn back-to-home">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: ['#E77F00', '#9C27B0'] },
+                shape: { type: 'circle' },
+                opacity: {
+                    value: 0.5,
+                    random: true
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#E77F00',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get user info from session storage
+            const userInfo = JSON.parse(sessionStorage.getItem('user-info'));
+            const userCreds = JSON.parse(sessionStorage.getItem('user-creds'));
+
+            if (userInfo && userCreds) {
+                document.getElementById('firstName').textContent = userInfo.firstname;
+                document.getElementById('lastName').textContent = userInfo.lastname;
+                document.getElementById('userEmail').textContent = userCreds.email;
+            } else {
+                window.location.href = './login.html';
+            }
+
+            // Single event listener for the back button
+            document.querySelector('.back-to-home').addEventListener('click', (e) => {
+                e.preventDefault();
+                const previousPage = localStorage.getItem('previousPage');
+                console.log('Previous page:', previousPage); // Debug line
+                
+                switch(previousPage) {
+                    case 'ctlt':
+                        window.location.href = './ctlt.html';
+                        break;
+                    case 'moodle':
+                        window.location.href = './moodle.html';
+                        break;
+                    case 'index':
+                        window.location.href = '../index.html';
+                        break;
+                    default:
+                        window.location.href = '../index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

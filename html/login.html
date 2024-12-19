@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTLT - Login</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated background with particles -->
+    <div id="particles-js"></div>
+
+    <div class="auth-container">
+        <div class="form-box">
+            <div class="form-header">
+                <img src="../media/uca-logo.png" alt="UCA Logo" class="logo-spin">
+                <h2 class="gradient-text">Welcome Back</h2>
+                <p>Sign in to continue to CTLT Platform</p>
+            </div>
+
+            <form id="MainForm" class="modern-form">
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="emailInp" placeholder="Email address" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="passwordInp" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <label id="forgotpasslabel" class="forgot-password">Forgot Password?</label>
+                </div>
+
+                <button type="submit" class="auth-btn login-btn">
+                    <span>Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>Don't have an account?</p>
+                <a href="./register.html" class="gradient-text signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, get, ref, child } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS0BBI8nlRlGRoBAVnA6mn6RgpgDWveB4",
+            authDomain: "ctlt-d0867.firebaseapp.com",
+            projectId: "ctlt-d0867",
+            storageBucket: "ctlt-d0867.appspot.com",
+            messagingSenderId: "501375910023",
+            appId: "1:501375910023:web:d0bb2c6bb2c060a43d3822",
+            measurementId: "G-MSHZ8J6DKY",
+            databaseURL: "https://ctlt-d0867-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+        const dbref = ref(db);
+
+        let EmailInp = document.getElementById("emailInp");
+        let PassInp = document.getElementById("passwordInp");
+        let MainForm = document.getElementById("MainForm");
+        let ForgotPassLabel = document.getElementById("forgotpasslabel");
+
+        let modal = document.getElementById("forgotPasswordModal");
+        let closeBtn = document.getElementsByClassName("close")[0];
+        let resetEmailInp = document.getElementById("resetEmailInp");
+        let sendResetLink = document.getElementById("sendResetLink");
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        let SignInUser = evt => {
+            evt.preventDefault();
+
+            signInWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+                .then(async (credentials) => {
+                    if (credentials.user.emailVerified) {
+                        try {
+                            const snapshot = await get(child(dbref, "UsersAuthList/" + credentials.user.uid));
+                            if (snapshot.exists()) {
+                                sessionStorage.setItem("user-info", JSON.stringify({
+                                    firstname: snapshot.val().firstname,
+                                    lastname: snapshot.val().lastname
+                                }));
+                                sessionStorage.setItem("user-creds", JSON.stringify(credentials.user));
+                                
+                                const platform = getUrlParameter('platform');
+                                
+                                let redirectUrl;
+                                if (platform === 'moodle') {
+                                    redirectUrl = './moodle.html';
+                                } else if (platform === 'ctlt') {
+                                    redirectUrl = './ctlt.html';
+                                } else {
+                                    redirectUrl = './index.html';
+                                }
+
+                                setTimeout(() => {
+                                    localStorage.setItem('isLoggedIn', 'true');
+                                    
+                                    // Get the stored redirect URL
+                                    const redirectUrl = localStorage.getItem('redirectAfterLogin');
+                                    
+                                    // If there's a stored redirect URL, use it and then clear it
+                                    if (redirectUrl) {
+                                        localStorage.removeItem('redirectAfterLogin');
+                                        window.location.href = redirectUrl;
+                                    } else {
+                                        window.location.href = '../index.html';
+                                    }
+                                }, 100);
+                            }
+                        } catch (error) {
+                            console.error("Error fetching user data:", error);
+                            alert("Error fetching user data. Please try again.");
+                        }
+                    } else {
+                        alert("Please verify your email before logging in.");
+                    }
+                })
+                .catch((error) => {
+                    alert(error.message);
+                    console.log(error.code);
+                    console.log(error.message);
+                });
+        }
+
+        let ForgotPassword = () => {
+            modal.style.display = "block";
+            resetEmailInp.value = EmailInp.value; // Pre-fill with main form email if any
+        }
+
+        closeBtn.onclick = () => {
+            modal.style.display = "none";
+        }
+
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        sendResetLink.onclick = () => {
+            const email = resetEmailInp.value;
+            if (!email) {
+                alert("Please enter your email address");
+                return;
+            }
+
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert("Password reset link has been sent to your email");
+                    modal.style.display = "none";
+                })
+                .catch((error) => {
+                    alert(error.message);
+                    console.log(error.code);
+                    console.log(error.message);
+                });
+        }
+
+        MainForm.addEventListener("submit", SignInUser);
+        if (ForgotPassLabel) {
+            ForgotPassLabel.addEventListener("click", ForgotPassword);
+        }
+
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: ['#E77F00', '#9C27B0'] },
+                shape: { type: 'circle' },
+                opacity: {
+                    value: 0.5,
+                    random: true
+                },
+                size: {
+                    value: 3,
+                    random: true
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#E77F00',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+    </script>
+
+    <!-- Add this right before the closing body tag -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 class="gradient-text">Reset Password</h3>
+            <p style="margin-bottom: 20px;">Enter your email address to receive a password reset link.</p>
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="resetEmailInp" placeholder="Email address" required>
+                </div>
+            </div>
+            <button id="sendResetLink" class="auth-btn">
+                <span>Send Reset Link</span>
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

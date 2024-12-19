@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTLT - Welcome</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <!-- Add Font Awesome for modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Animated background with particles -->
+    <div id="particles-js"></div>
+
+    <div class="hero-section">
+        <nav class="modern-navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="./media/uca-logo.png" alt="UCA Logo" class="logo-spin">
+                    <span class="gradient-text">CTLT</span>
+                </div>
+                <div class="nav-buttons">
+                    <a href="./html/login.html" class="nav-btn login-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </a>
+                    <a href="./html/profile.html" class="nav-btn profile-btn" id="profileBtn" style="display: none;">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a href="./html/register.html" class="nav-btn signup-btn" id="signupBtn">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                    <a href="#" class="nav-btn logout-btn" id="logoutBtn" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="gradient-text slide-in-left">Welcome to CTLT Platform</h1>
+                <p class="slide-in-left delay-1">Your comprehensive learning management solution for modern education.</p>
+                <button class="get-started" id="get-started-btn">Get Started</button>
+            </div>
+            <div class="hero-visual">
+                <div class="animated-letters">
+                    <div class="energy-field"></div>
+                    <span class="letter letter-c">C</span>
+                    <span class="letter letter-t1">T</span>
+                    <span class="letter letter-l">L</span>
+                    <span class="letter letter-t2">T</span>
+                    <div class="particles">
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                        <div class="particle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platform Selection Modal -->
+    <div id="platformModal" class="platform-modal">
+        <div class="platform-modal-content">
+            <h2 class="gradient-text">Choose Your Platform</h2>
+            <div class="platform-buttons">
+                <button id="ctltBtn" class="platform-btn ctlt-theme">
+                    <div class="platform-info">
+                        <span class="platform-name">CTLT Platform</span>
+                        <span class="platform-desc">Teaching & Learning Tools</span>
+                    </div>
+                </button>
+                <button id="moodleBtn" class="platform-btn moodle-theme">
+                    <div class="platform-info">
+                        <span class="platform-name">Moodle Platform</span>
+                        <span class="platform-desc">Course Management</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Store 'index' as the previous page when on the main page
+            localStorage.setItem('previousPage', 'index');
+            
+            const getStartedBtn = document.getElementById('get-started-btn');
+            const platformModal = document.getElementById('platformModal');
+            const ctltBtn = document.getElementById('ctltBtn');
+            const moodleBtn = document.getElementById('moodleBtn');
+
+            // Add scroll animation for navbar
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.modern-navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Platform modal interactions
+            getStartedBtn.addEventListener('click', () => {
+                // Show platform selection modal for everyone
+                document.querySelector('.platform-modal').classList.add('show');
+            });
+
+            // Check login status and update UI
+            function checkLoginStatus() {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                const loginBtn = document.getElementById('loginBtn');
+                const profileBtn = document.getElementById('profileBtn');
+                const signupBtn = document.getElementById('signupBtn');
+                const logoutBtn = document.getElementById('logoutBtn');
+
+                if (isLoggedIn) {
+                    loginBtn.style.display = 'none';
+                    signupBtn.style.display = 'none';
+                    profileBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'inline-block';
+                } else {
+                    loginBtn.style.display = 'inline-block';
+                    signupBtn.style.display = 'inline-block';
+                    profileBtn.style.display = 'none';
+                    logoutBtn.style.display = 'none';
+                }
+            }
+
+            // Handle logout
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('isLoggedIn');
+                checkLoginStatus();
+            });
+
+            // Modify platform button click handlers
+            ctltBtn.addEventListener('click', () => {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (isLoggedIn) {
+                    window.location.href = './html/ctlt.html';
+                } else {
+                    localStorage.setItem('selectedPlatform', 'ctlt');
+                    localStorage.setItem('redirectAfterLogin', '/html/ctlt.html');
+                    window.location.href = './html/login.html';
+                }
+            });
+
+            moodleBtn.addEventListener('click', () => {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (isLoggedIn) {
+                    window.location.href = './html/moodle.html';
+                } else {
+                    localStorage.setItem('selectedPlatform', 'moodle');
+                    localStorage.setItem('redirectAfterLogin', '/html/moodle.html');
+                    window.location.href = './html/login.html';
+                }
+            });
+
+            platformModal.addEventListener('click', (e) => {
+                if (e.target === platformModal) {
+                    platformModal.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Add hover effect for platform buttons
+            const platformBtns = document.querySelectorAll('.platform-btn');
+            platformBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.classList.add('hover');
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.classList.remove('hover');
+                });
+            });
+
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: ['#E77F00', '#9C27B0']
+                    },
+                    shape: {
+                        type: 'circle'
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true
+                    },
+                    size: {
+                        value: 3,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#E77F00',
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'grab'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+
+            // Check login status when page loads
+            checkLoginStatus();
+        });
+    </script>
+</body>
+
+</html>

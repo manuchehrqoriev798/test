@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTLT - Register</title>
+    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="auth-container">
+        <div class="form-box">
+            <div class="form-header">
+                <img src="../media/uca-logo.png" alt="UCA Logo" class="logo-spin">
+                <h2 class="gradient-text">Create Account</h2>
+                <p>Join the CTLT Platform</p>
+            </div>
+
+            <form id="MainForm" class="modern-form">
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="emailInp" placeholder="Email address" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="passwordInp" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="regCodeInp" placeholder="Registration Code" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="fnameInp" placeholder="First Name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="lnameInp" placeholder="Last Name" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn register-btn">
+                    <span>Create Account</span>
+                    <i class="fas fa-user-plus"></i>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>Already have an account?</p>
+                <a href="./login.html" class="gradient-text signin-btn">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS0BBI8nlRlGRoBAVnA6mn6RgpgDWveB4",
+            authDomain: "ctlt-d0867.firebaseapp.com",
+            projectId: "ctlt-d0867",
+            storageBucket: "ctlt-d0867.appspot.com",
+            messagingSenderId: "501375910023",
+            appId: "1:501375910023:web:d0bb2c6bb2c060a43d3822",
+            measurementId: "G-MSHZ8J6DKY",
+            databaseURL: "https://ctlt-d0867-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        let EmailInp = document.getElementById("emailInp");
+        let PassInp = document.getElementById("passwordInp");
+        let RegCodeInp = document.getElementById("regCodeInp");
+        let FnameInp = document.getElementById("fnameInp");
+        let LnameInp = document.getElementById("lnameInp");
+        let MainForm = document.getElementById("MainForm");
+
+        let RegisterUser = evt => {
+            evt.preventDefault();
+
+            const VALID_REG_CODE = "ADMIN123";  // Registration code constant
+
+            // Check registration code first
+            if (RegCodeInp.value !== VALID_REG_CODE) {
+                alert("Invalid registration code. Please try again.");
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+                .then((credentials) => {
+                    set(ref(db, "UsersAuthList/" + credentials.user.uid), {
+                        firstname: FnameInp.value,
+                        lastname: LnameInp.value
+                    });
+                    sendEmailVerification(credentials.user)
+                        .then(() => {
+                            alert("User registered successfully! A verification link has been sent to your email.");
+                            window.location.href = "./login.html";
+                        });
+                })
+                .catch((error) => {
+                    alert(error.message);
+                    console.log(error.code);
+                    console.log(error.message);
+                });
+        }
+
+        MainForm.addEventListener("submit", RegisterUser);
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 60 },
+                    color: { value: ['#E77F00', '#9C27B0'] },
+                    shape: { type: 'circle' },
+                    opacity: {
+                        value: 0.3,
+                        random: true
+                    },
+                    size: {
+                        value: 4,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#9C27B0',
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1.5,
+                        direction: 'none',
+                        random: true,
+                        straight: false,
+                        out_mode: 'bounce',
+                        bounce: true
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'bubble'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'repulse'
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        bubble: {
+                            distance: 200,
+                            size: 6,
+                            duration: 2,
+                            opacity: 0.8,
+                            speed: 3
+                        },
+                        repulse: {
+                            distance: 200,
+                            duration: 0.4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

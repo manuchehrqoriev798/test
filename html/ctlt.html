@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTLT Tutorial</title>
+    <link rel="stylesheet" href="../css/ctlt.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Add this right after opening body tag -->
+    <div id="particles-js"></div>
+
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <div class="nav-top-row">
+            <div class="nav-buttons">
+                <a href="ctlt.html" class="nav-btn active">CTLT</a>
+                <a href="moodle.html" class="nav-btn">Moodle</a>
+            </div>
+            <div class="profile-section">
+                <a href="../index.html" class="home-btn">
+                    <i class="fas fa-home" data-tooltip="Main Page"></i>
+                </a>
+                <div class="profile-dropdown">
+                    <i class="fas fa-user-circle profile-icon" id="profile-pic" data-tooltip="Profile"></i>
+                </div>
+            </div>
+        </div>
+        <div class="welcome-message" id="welcome-message"></div>
+    </div>
+
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <h2>Tutorial Steps</h2>
+            <ul class="steps-list">
+                <li>
+                    <div class="step-link" data-step="1">
+                        <span>1. Getting Started with CTLT</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-link" data-step="2">
+                        <span>2. Understanding the Platform</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-link" data-step="3">
+                        <span>3. Creating Content</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-link" data-step="4">
+                        <span>4. Managing Resources</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-link" data-step="5">
+                        <span>5. Student Engagement Tools</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-link" data-step="6">
+                        <span>6. Assessment Methods</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-link" data-step="7">
+                        <span>7. Advanced Features & Tips</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div class="step-content">
+                <h2 class="step-title" id="current-step-title"></h2>
+                <p class="step-description" id="current-step-description"></p>
+                <div class="video-container">
+                    <video controls id="step-video">
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <!-- Add button container here -->
+                <div class="completion-button-container">
+                    <button id="complete-step-btn" class="btn not-completed">Mark as Completed</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        // Step content data
+        const stepContent = {
+            1: {
+                title: "Getting Started with CTLT",
+                description: "Learn the basics of accessing and navigating the CTLT platform, including login procedures and initial setup.",
+                videoUrl: "../media/step7.mp4"
+            },
+            2: {
+                title: "Understanding the Platform",
+                description: "Explore the core features and interface of the CTLT platform, including navigation and basic functionality.",
+                videoUrl: "../media/step7.mp4"
+            },
+            3: {
+                title: "Creating Content",
+                description: "Learn how to create and organize educational content effectively using CTLT's content creation tools.",
+                videoUrl: "../media/step7.mp4"
+            },
+            4: {
+                title: "Managing Resources",
+                description: "Discover how to efficiently manage and organize your educational resources within the platform.",
+                videoUrl: "../media/step7.mp4"
+            },
+            5: {
+                title: "Student Engagement Tools",
+                description: "Explore various tools and features designed to enhance student engagement and participation.",
+                videoUrl: "../media/step7.mp4"
+            },
+            6: {
+                title: "Assessment Methods",
+                description: "Learn about different assessment tools and methods available for evaluating student progress.",
+                videoUrl: "../media/step7.mp4"
+            },
+            7: {
+                title: "Advanced Features & Tips",
+                description: "Master advanced features and learn best practices for optimal platform usage.",
+                videoUrl: "../media/step7.mp4"
+            }
+        };
+
+
+
+        // Handle step navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            const stepLinks = document.querySelectorAll('.step-link');
+            const stepTitle = document.getElementById('current-step-title');
+            const stepDescription = document.getElementById('current-step-description');
+            const stepVideo = document.getElementById('step-video');
+
+            // Updated Profile dropdown functionality
+            const profilePic = document.getElementById('profile-pic');
+
+            // Redirect to profile page on profile icon click
+            profilePic.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'profile.html';
+            });
+
+            // Add this function to load step content
+            function loadStepContent(stepNumber) {
+                const step = stepContent[stepNumber];
+                if (step) {
+                    stepTitle.textContent = step.title;
+                    stepDescription.textContent = step.description;
+                    stepVideo.src = step.videoUrl;
+                }
+            }
+
+            // Load first step by default
+            loadStepContent(1);
+
+            // Update existing click handler to use the new function
+            stepLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const stepNumber = e.target.closest('.step-link').getAttribute('data-step');
+                    loadStepContent(stepNumber);
+                });
+            });
+
+            // Add particles.js configuration
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: ['#E77F00', '#9C27B0']
+                    },
+                    shape: {
+                        type: 'circle'
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true
+                    },
+                    size: {
+                        value: 3,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#E77F00',
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: 'grab'
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: 'push'
+                        },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+
+        });
+
+        // Updated completion logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const completeBtn = document.getElementById('complete-step-btn');
+            let currentStep = 1; // Default to first step
+
+            // Function to update button state without modifying completion status
+            function updateButtonDisplay(stepNumber) {
+                const isCompleted = localStorage.getItem(`ctlt-step-${stepNumber}-completed`) === 'true';
+                if (isCompleted) {
+                    completeBtn.textContent = 'Completed';
+                    completeBtn.classList.remove('not-completed');
+                    completeBtn.classList.add('completed');
+                } else {
+                    completeBtn.textContent = 'Mark as Completed';
+                    completeBtn.classList.remove('completed');
+                    completeBtn.classList.add('not-completed');
+                }
+            }
+
+            // Update button display when clicking steps (without changing completion status)
+            document.querySelectorAll('.step-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const stepNumber = e.target.closest('.step-link').getAttribute('data-step');
+                    currentStep = stepNumber;
+                    updateButtonDisplay(currentStep);
+                    
+                    // Update step link visual state
+                    const isCompleted = localStorage.getItem(`ctlt-step-${stepNumber}-completed`) === 'true';
+                    if (isCompleted) {
+                        document.querySelector(`.step-link[data-step="${stepNumber}"]`).classList.add('completed');
+                    } else {
+                        document.querySelector(`.step-link[data-step="${stepNumber}"]`).classList.remove('completed');
+                    }
+                });
+            });
+
+            // Handle completion button clicks
+            completeBtn.addEventListener('click', () => {
+                const currentlyCompleted = completeBtn.classList.contains('completed');
+
+                if (currentlyCompleted) {
+                    completeBtn.textContent = 'Mark as Completed';
+                    completeBtn.classList.remove('completed');
+                    completeBtn.classList.add('not-completed');
+                    document.querySelector(`.step-link[data-step="${currentStep}"]`).classList.remove('completed');
+                    localStorage.setItem(`ctlt-step-${currentStep}-completed`, 'false');
+                } else {
+                    completeBtn.textContent = 'Completed';
+                    completeBtn.classList.remove('not-completed');
+                    completeBtn.classList.add('completed');
+                    document.querySelector(`.step-link[data-step="${currentStep}"]`).classList.add('completed');
+                    localStorage.setItem(`ctlt-step-${currentStep}-completed`, 'true');
+                }
+            });
+
+            // Initialize first step
+            updateButtonDisplay(currentStep);
+            const isFirstStepCompleted = localStorage.getItem(`ctlt-step-${currentStep}-completed`) === 'true';
+            if (isFirstStepCompleted) {
+                document.querySelector(`.step-link[data-step="${currentStep}"]`).classList.add('completed');
+            }
+        });
+    </script>
+
+    <!-- VOICEFLOW CHAT INTEGRATION SCRIPT -->
+    <script type="text/javascript">
+        (function (d, t) {
+            var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            v.onload = function () {
+                window.voiceflow.chat.load({
+                    verify: { projectID: '67016475572c298c66c6f6e8' },
+                    url: 'https://general-runtime.voiceflow.com',
+                    versionID: 'production'
+                });
+            }
+            v.src = "https://cdn.voiceflow.com/widget/bundle.mjs";
+            v.type = "text/javascript";
+            s.parentNode.insertBefore(v, s);
+        })(document, 'script');
+    </script>
+
+    <!-- Add this script section -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Store current page as previous page
+                localStorage.setItem('previousPage', 'ctlt');
+                
+                let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+                const welcomeMessage = document.getElementById("welcome-message");
+                
+                if (UserInfo) {
+                    welcomeMessage.textContent = `Welcome ${UserInfo.firstname} ${UserInfo.lastname} to CTLT Platform`;
+                } else {
+                    welcomeMessage.textContent = 'Welcome to CTLT Platform';
+                }
+
+            } catch (error) {
+                console.error("Error initializing:", error);
+            }
+        });
+    </script>
+</body>
+</html>
