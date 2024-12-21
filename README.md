@@ -11,13 +11,6 @@ To create a new account, use the following registration code:
 ADMIN123
 ```
 
-## Project Information
-- **Student Name:** Manuchehr Qoriev
-- **Student ID:** 1000002573
-- **Course:** Web and Internet Technologies
-- **Date:** March 2024
-
-
 ### Development Status
 **This project is currently in development stage.**
 
