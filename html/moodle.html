@@ -139,9 +139,7 @@
             }
         };
 
-
-
-        // Handle step navigation
+        // Consolidate all event listeners into a single DOMContentLoaded event
         document.addEventListener('DOMContentLoaded', () => {
             const stepLinks = document.querySelectorAll('.step-link');
             const stepTitle = document.getElementById('current-step-title');
@@ -149,21 +147,38 @@
             const stepVideo = document.getElementById('step-video');
             const prevBtn = document.getElementById('prev-step-btn');
             const nextBtn = document.getElementById('next-step-btn');
+            const completeBtn = document.getElementById('complete-step-btn');
+            const profilePic = document.getElementById('profile-pic');
             let currentStep = 1; // Default to first step
 
-            // Updated Profile dropdown functionality
-            const profilePic = document.getElementById('profile-pic');
+            // Define updateButtonDisplay function
+            function updateButtonDisplay(stepNumber) {
+                const isCompleted = localStorage.getItem(`moodle-step-${stepNumber}-completed`) === 'true';
+                if (isCompleted) {
+                    completeBtn.textContent = 'Completed';
+                    completeBtn.classList.remove('not-completed');
+                    completeBtn.classList.add('completed');
+                    document.querySelector(`.step-link[data-step="${stepNumber}"]`).classList.add('completed');
+                } else {
+                    completeBtn.textContent = 'Mark as Completed';
+                    completeBtn.classList.remove('completed');
+                    completeBtn.classList.add('not-completed');
+                    document.querySelector(`.step-link[data-step="${stepNumber}"]`).classList.remove('completed');
+                }
+            }
 
-            // Redirect to profile page on profile icon click
-            profilePic.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.href = 'profile.html';
-            });
-
-            // Add this function to load step content
+            // Function to load step content
             function loadStepContent(stepNumber) {
                 const step = stepContent[stepNumber];
                 if (step) {
+                    // Remove active class from all steps
+                    document.querySelectorAll('.step-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Add active class to current step
+                    document.querySelector(`.step-link[data-step="${stepNumber}"]`).classList.add('active');
+                    
                     stepTitle.textContent = step.title;
                     stepDescription.textContent = step.description;
                     stepVideo.src = step.videoUrl;
@@ -179,7 +194,12 @@
                 nextBtn.disabled = stepNumber >= Object.keys(stepContent).length;
             }
 
-            // Add click handlers for navigation buttons
+            // Event Listeners
+            profilePic.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'profile.html';
+            });
+
             prevBtn.addEventListener('click', () => {
                 if (currentStep > 1) {
                     loadStepContent(currentStep - 1);
@@ -192,7 +212,6 @@
                 }
             });
 
-            // Update existing click handler to use the new function
             stepLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -201,10 +220,22 @@
                 });
             });
 
-            // Initialize first step content
+            // Handle completion button clicks
+            completeBtn.addEventListener('click', () => {
+                const currentlyCompleted = completeBtn.classList.contains('completed');
+                
+                if (currentlyCompleted) {
+                    localStorage.setItem(`moodle-step-${currentStep}-completed`, 'false');
+                } else {
+                    localStorage.setItem(`moodle-step-${currentStep}-completed`, 'true');
+                }
+                updateButtonDisplay(currentStep);
+            });
+
+            // Initialize first step
             loadStepContent(1);
 
-            // Add particles.js configuration
+            // Particles.js configuration
             particlesJS('particles-js', {
                 particles: {
                     number: {
@@ -261,70 +292,6 @@
                 },
                 retina_detect: true
             });
-
-        });
-
-        // Updated completion logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const completeBtn = document.getElementById('complete-step-btn');
-            let currentStep = 1; // Default to first step
-
-            // Function to update button state without modifying completion status
-            function updateButtonDisplay(stepNumber) {
-                const isCompleted = localStorage.getItem(`moodle-step-${stepNumber}-completed`) === 'true';
-                if (isCompleted) {
-                    completeBtn.textContent = 'Completed';
-                    completeBtn.classList.remove('not-completed');
-                    completeBtn.classList.add('completed');
-                } else {
-                    completeBtn.textContent = 'Mark as Completed';
-                    completeBtn.classList.remove('completed');
-                    completeBtn.classList.add('not-completed');
-                }
-            }
-
-            // Update button display when clicking steps (without changing completion status)
-            document.querySelectorAll('.step-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    const stepNumber = e.target.closest('.step-link').getAttribute('data-step');
-                    currentStep = stepNumber;
-                    updateButtonDisplay(currentStep);
-                    
-                    // Update step link visual state
-                    const isCompleted = localStorage.getItem(`moodle-step-${stepNumber}-completed`) === 'true';
-                    if (isCompleted) {
-                        document.querySelector(`.step-link[data-step="${stepNumber}"]`).classList.add('completed');
-                    } else {
-                        document.querySelector(`.step-link[data-step="${stepNumber}"]`).classList.remove('completed');
-                    }
-                });
-            });
-
-            // Handle completion button clicks
-            completeBtn.addEventListener('click', () => {
-                const currentlyCompleted = completeBtn.classList.contains('completed');
-
-                if (currentlyCompleted) {
-                    completeBtn.textContent = 'Mark as Completed';
-                    completeBtn.classList.remove('completed');
-                    completeBtn.classList.add('not-completed');
-                    document.querySelector(`.step-link[data-step="${currentStep}"]`).classList.remove('completed');
-                    localStorage.setItem(`moodle-step-${currentStep}-completed`, 'false');
-                } else {
-                    completeBtn.textContent = 'Completed';
-                    completeBtn.classList.remove('not-completed');
-                    completeBtn.classList.add('completed');
-                    document.querySelector(`.step-link[data-step="${currentStep}"]`).classList.add('completed');
-                    localStorage.setItem(`moodle-step-${currentStep}-completed`, 'true');
-                }
-            });
-
-            // Initialize first step
-            updateButtonDisplay(currentStep);
-            const isFirstStepCompleted = localStorage.getItem(`moodle-step-${currentStep}-completed`) === 'true';
-            if (isFirstStepCompleted) {
-                document.querySelector(`.step-link[data-step="${currentStep}"]`).classList.add('completed');
-            }
         });
     </script>
 
