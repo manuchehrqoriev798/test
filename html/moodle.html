@@ -88,7 +88,9 @@
                 </div>
                 <!-- Add button container here -->
                 <div class="completion-button-container">
+                    <button id="prev-step-btn" class="btn nav-step-btn">Previous</button>
                     <button id="complete-step-btn" class="btn not-completed">Mark as Completed</button>
+                    <button id="next-step-btn" class="btn nav-step-btn">Next</button>
                 </div>
             </div>
 
@@ -145,6 +147,9 @@
             const stepTitle = document.getElementById('current-step-title');
             const stepDescription = document.getElementById('current-step-description');
             const stepVideo = document.getElementById('step-video');
+            const prevBtn = document.getElementById('prev-step-btn');
+            const nextBtn = document.getElementById('next-step-btn');
+            let currentStep = 1; // Default to first step
 
             // Updated Profile dropdown functionality
             const profilePic = document.getElementById('profile-pic');
@@ -162,11 +167,30 @@
                     stepTitle.textContent = step.title;
                     stepDescription.textContent = step.description;
                     stepVideo.src = step.videoUrl;
+                    currentStep = parseInt(stepNumber);
+                    updateNavigationButtons(currentStep);
+                    updateButtonDisplay(currentStep);
                 }
             }
 
-            // Load first step by default
-            loadStepContent(1);
+            // Function to update navigation buttons state
+            function updateNavigationButtons(stepNumber) {
+                prevBtn.disabled = stepNumber <= 1;
+                nextBtn.disabled = stepNumber >= Object.keys(stepContent).length;
+            }
+
+            // Add click handlers for navigation buttons
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    loadStepContent(currentStep - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentStep < Object.keys(stepContent).length) {
+                    loadStepContent(currentStep + 1);
+                }
+            });
 
             // Update existing click handler to use the new function
             stepLinks.forEach(link => {
@@ -176,6 +200,9 @@
                     loadStepContent(stepNumber);
                 });
             });
+
+            // Initialize first step content
+            loadStepContent(1);
 
             // Add particles.js configuration
             particlesJS('particles-js', {

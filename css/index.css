@@ -1670,3 +1670,14 @@ body {
     background: linear-gradient(45deg, #ff9f33, #E77F00);
 }
 
+.contact-email {
+    color: #E77F00;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-email:hover {
+    color: #ff9f33;
+    text-decoration: underline;
+}
+

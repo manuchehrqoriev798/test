@@ -1092,3 +1092,41 @@ a[href="moodle.html"].nav-btn {
     display: flex;
     align-items: center;
 }
+
+/* Navigation buttons container */
+.completion-button-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Navigation step buttons */
+.nav-step-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 10px 20px;
+    min-width: 100px;
+    opacity: 0.9;
+}
+
+.nav-step-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-step-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.5;
+}
+
+/* Center the complete button */
+#complete-step-btn {
+    flex-grow: 0;
+    min-width: 150px;
+}
