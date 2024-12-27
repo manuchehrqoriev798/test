@@ -6,6 +6,7 @@
     <title>CTLT Tutorial</title>
     <link rel="stylesheet" href="../css/moodle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/shared-styles.css">
 </head>
 <body>
     <!-- Add this right after opening body tag -->
@@ -22,6 +23,9 @@
                 <a href="../index.html" class="home-btn">
                     <i class="fas fa-home" data-tooltip="Main Page"></i>
                 </a>
+                <button id="themeToggle" class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <div class="profile-dropdown">
                     <i class="fas fa-user-circle profile-icon" id="profile-pic" data-tooltip="Profile"></i>
                 </div>
@@ -336,5 +340,7 @@
             }
         });
     </script>
+
+    <script src="../js/shared-theme.js"></script>
 </body>
 </html>
