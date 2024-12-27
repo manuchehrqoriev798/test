@@ -1,10 +1,10 @@
-/* Light theme for register */
+/* Change from light to dark theme */
 body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d1f3d 100%);
     overflow: hidden;
 }
 
@@ -26,13 +26,13 @@ body {
 }
 
 .form-box {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     padding: 40px;
     border-radius: 20px;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .form-header {
@@ -53,7 +53,8 @@ body {
 }
 
 .form-header p {
-    color: #666;
+    color: #fff;
+    opacity: 0.8;
 }
 
 .modern-form {
@@ -81,8 +82,8 @@ body {
     padding: 15px 15px 15px 45px;
     border: 2px solid rgba(231, 127, 0, 0.3);
     border-radius: 50px;
-    background: rgba(255, 255, 255, 0.8);
-    color: #333;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
     font-size: 16px;
     transition: all 0.3s ease;
 }
@@ -90,12 +91,12 @@ body {
 .input-icon input:focus {
     outline: none;
     border-color: #E77F00;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 15px rgba(231, 127, 0, 0.1);
 }
 
 .input-icon input::placeholder {
-    color: #999;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .auth-btn {
@@ -131,7 +132,7 @@ body {
 .form-footer {
     margin-top: 30px;
     text-align: center;
-    color: #666;
+    color: #fff;
 }
 
 .form-footer p {
