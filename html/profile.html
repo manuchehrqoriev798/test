@@ -48,6 +48,10 @@
                     </div>
 
                     <div class="profile-actions">
+                        <button class="profile-action-btn" id="forgotPassBtn">
+                            <i class="fas fa-key"></i>
+                            Reset Password
+                        </button>
                         <button class="profile-action-btn back-btn back-to-home">
                             <i class="fas fa-arrow-left"></i>
                             Back to Home
@@ -58,9 +62,45 @@
         </div>
     </div>
 
+    <!-- Add this before the closing body tag -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 class="gradient-text">Reset Password</h3>
+            <p style="margin-bottom: 20px;">Enter your email address to receive a password reset link.</p>
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="resetEmailInp" placeholder="Email address" required>
+                </div>
+            </div>
+            <button id="sendResetLink" class="auth-btn">
+                <span>Send Reset Link</span>
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAS0BBI8nlRlGRoBAVnA6mn6RgpgDWveB4",
+            authDomain: "ctlt-d0867.firebaseapp.com",
+            projectId: "ctlt-d0867",
+            storageBucket: "ctlt-d0867.appspot.com",
+            messagingSenderId: "501375910023",
+            appId: "1:501375910023:web:d0bb2c6bb2c060a43d3822",
+            measurementId: "G-MSHZ8J6DKY",
+            databaseURL: "https://ctlt-d0867-default-rtdb.firebaseio.com/"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
         // Initialize particles.js
         particlesJS('particles-js', {
             particles: {
@@ -142,6 +182,47 @@
                         window.location.href = '../index.html';
                 }
             });
+
+            const modal = document.getElementById("forgotPasswordModal");
+            const closeBtn = document.getElementsByClassName("close")[0];
+            const resetEmailInp = document.getElementById("resetEmailInp");
+            const sendResetLink = document.getElementById("sendResetLink");
+            const forgotPassBtn = document.getElementById("forgotPassBtn");
+
+            forgotPassBtn.onclick = () => {
+                modal.style.display = "block";
+                const userEmail = document.getElementById('userEmail').textContent;
+                resetEmailInp.value = userEmail;
+            }
+
+            closeBtn.onclick = () => {
+                modal.style.display = "none";
+            }
+
+            window.onclick = (event) => {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            sendResetLink.onclick = () => {
+                const email = resetEmailInp.value;
+                if (!email) {
+                    alert("Please enter your email address");
+                    return;
+                }
+
+                sendPasswordResetEmail(auth, email)
+                    .then(() => {
+                        alert("Password reset link has been sent to your email");
+                        modal.style.display = "none";
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                        console.log(error.code);
+                        console.log(error.message);
+                    });
+            }
         });
     </script>
     <script src="../js/shared-theme.js"></script>

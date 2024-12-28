@@ -166,3 +166,26 @@
     background: linear-gradient(45deg, #cc0000, #ff4444);
     transform: translateY(-2px);
 }
+
+/* Reset Password Button Styling */
+#forgotPassBtn {
+    background: linear-gradient(45deg, #9C27B0, #E77F00);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 10px rgba(156, 39, 176, 0.2);
+}
+
+#forgotPassBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+    background: linear-gradient(45deg, #E77F00, #9C27B0);
+}
+
+#forgotPassBtn i {
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+#forgotPassBtn:hover i {
+    transform: rotate(15deg);
+}
